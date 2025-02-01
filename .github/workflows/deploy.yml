@@ -9,13 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: vercel/actions/cli@master
+      - uses: actions/setup-node@v3
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--env ENVIRONMENT=development'
-          working-directory: ./
+          node-version: '18'
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=development --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        run: vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
 
   deploy-staging:
     needs: deploy-dev
@@ -24,13 +26,15 @@ jobs:
       name: staging
     steps:
       - uses: actions/checkout@v3
-      - uses: vercel/actions/cli@master
+      - uses: actions/setup-node@v3
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--env ENVIRONMENT=staging'
-          working-directory: ./
+          node-version: '18'
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        run: vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
 
   deploy-production:
     needs: deploy-staging
@@ -39,10 +43,12 @@ jobs:
       name: production
     steps:
       - uses: actions/checkout@v3
-      - uses: vercel/actions/cli@master
+      - uses: actions/setup-node@v3
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--prod --env ENVIRONMENT=production'
-          working-directory: ./
+          node-version: '18'
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
