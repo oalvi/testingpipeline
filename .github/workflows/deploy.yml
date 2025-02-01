@@ -6,48 +6,40 @@ on:
 
 jobs:
   deploy-dev:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@v2
-      - uses: amondnet/vercel-action@v20
+      - uses: "actions/checkout@v2"
+      - uses: "amondnet/vercel-action@v20"
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--env ENVIRONMENT=development'
-          alias-domains: |
-            your-project-dev.vercel.app
+          vercel-token: "${{ secrets.VERCEL_TOKEN }}"
+          vercel-org-id: "${{ secrets.ORG_ID }}"
+          vercel-project-id: "${{ secrets.PROJECT_ID }}"
+          vercel-args: "--env ENVIRONMENT=development"
 
   deploy-staging:
     needs: deploy-dev
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     environment:
-      name: staging
-      url: https://your-project-staging.vercel.app
+      name: "staging"
     steps:
-      - uses: actions/checkout@v2
-      - uses: amondnet/vercel-action@v20
+      - uses: "actions/checkout@v2"
+      - uses: "amondnet/vercel-action@v20"
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--env ENVIRONMENT=staging'
-          alias-domains: |
-            your-project-staging.vercel.app
+          vercel-token: "${{ secrets.VERCEL_TOKEN }}"
+          vercel-org-id: "${{ secrets.ORG_ID }}"
+          vercel-project-id: "${{ secrets.PROJECT_ID }}"
+          vercel-args: "--env ENVIRONMENT=staging"
 
   deploy-production:
     needs: deploy-staging
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     environment:
-      name: production
-      url: https://your-project.vercel.app
+      name: "production"
     steps:
-      - uses: actions/checkout@v2
-      - uses: amondnet/vercel-action@v20
+      - uses: "actions/checkout@v2"
+      - uses: "amondnet/vercel-action@v20"
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--prod --env ENVIRONMENT=production'
-          alias-domains: |
-            your-project.vercel.app
+          vercel-token: "${{ secrets.VERCEL_TOKEN }}"
+          vercel-org-id: "${{ secrets.ORG_ID }}"
+          vercel-project-id: "${{ secrets.PROJECT_ID }}"
+          vercel-args: "--prod --env ENVIRONMENT=production"
